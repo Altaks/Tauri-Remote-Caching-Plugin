@@ -15,6 +15,19 @@ use tokio::sync::RwLock;
 struct CacheState(Arc<RwLock<HashMap<String, String>>>);
 
 #[command]
+async fn clear_cache<R: Runtime>(app_handle: AppHandle<R>) -> Result<(), String> {
+    let cache_dir_path = app_handle.path_resolver().resolve_resource("cache/").unwrap();
+
+    match std::fs::remove_dir_all(cache_dir_path) {
+        Ok(_) => {
+            println!("Cache cleared");
+            Ok(())
+        },
+        Err(err) => Err(err.to_string()),
+    }
+}
+
+#[command]
 async fn cached<'a, R: Runtime>(url: String, state: State<'a, CacheState>, app_handle: AppHandle<R>) -> Result<String, String> {
     let cloned_lock = state.0.clone();
     let cache_lock = state.0.read().await;
@@ -64,7 +77,7 @@ async fn cached<'a, R: Runtime>(url: String, state: State<'a, CacheState>, app_h
 /// Initializes the plugin.
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
     Builder::new("remote-caching")
-        .invoke_handler(tauri::generate_handler![cached])
+        .invoke_handler(tauri::generate_handler![cached, clear_cache])
         .setup(|app| {
 
             let cache_dir_path = app.path_resolver().resolve_resource("cache/").unwrap();

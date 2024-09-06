@@ -1,6 +1,6 @@
 import "./App.css";
 import {useEffect, useState} from "react";
-import {cached} from "../../../webview-src";
+import {cached, clear_cache} from "../../../webview-src";
 
 export const CachedImage = ({src, className}: {src: string, className?: string}) => {
     const [url, setUrl] = useState("");
@@ -29,6 +29,7 @@ function App() {
         <div className="container">
             <h1>Welcome to Tauri!</h1>
             <CachedImage src="https://genshin.jmp.blue/characters/raiden/icon" className="logo"/>
+            <button onClick={clear_cache}>Clear cache</button>
         </div>
     );
 }
