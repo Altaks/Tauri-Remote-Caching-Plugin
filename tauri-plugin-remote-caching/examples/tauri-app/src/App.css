@@ -31,10 +31,8 @@
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: 0.75s;
+  width: 128px;
+  height: 128px;
 }
 
 .logo.tauri:hover {

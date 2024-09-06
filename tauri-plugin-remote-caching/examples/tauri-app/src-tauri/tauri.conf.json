@@ -15,6 +15,18 @@
       "shell": {
         "all": false,
         "open": true
+      },
+      "path": {
+        "all": true
+      },
+      "fs": {
+        "all": true,
+        "scope": [
+          "$RESOURCE/*",
+          "$RESOURCE/resources/*",
+          "$APPDATA/cache/**/*",
+          "$APPDATA/cache/*"
+        ]
       }
     },
     "windows": [
