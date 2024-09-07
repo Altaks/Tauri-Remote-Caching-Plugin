@@ -15,11 +15,13 @@ use tokio::sync::RwLock;
 struct CacheState(Arc<RwLock<HashMap<String, String>>>);
 
 #[command]
-async fn clear_cache<R: Runtime>(app_handle: AppHandle<R>) -> Result<(), String> {
+async fn clear_cache<R: Runtime>(state: State<'_, CacheState>, app_handle: AppHandle<R>) -> Result<(), String> {
     let cache_dir_path = app_handle.path_resolver().resolve_resource("cache/").unwrap();
-
+    
     match std::fs::remove_dir_all(cache_dir_path) {
         Ok(_) => {
+            let mut registry_lock = state.0.write().await;
+            (*registry_lock).clear();
             println!("Cache cleared");
             Ok(())
         },
@@ -37,10 +39,13 @@ async fn cached<'a, R: Runtime>(url: String, state: State<'a, CacheState>, app_h
     match (*cache_lock).get(&url) {
         Some(value) => {
             println!("Cache hit");
-            Ok((*value).clone())
+            let result = Ok(value.clone());
+            drop(cache_lock); // Releasing the read lock
+            result
         }
         None => {
             println!("Cache miss");
+            drop(cache_lock); // Releasing the read lock
 
             if let Ok(response) = reqwest::get(url.clone()).await {
                 let url64 = Base64Encoder.encode(url.clone());
@@ -53,17 +58,26 @@ async fn cached<'a, R: Runtime>(url: String, state: State<'a, CacheState>, app_h
                 let file_format = mime_type.split('/').last().unwrap();
                 let mut save_path = app_handle.path_resolver().resolve_resource(format!("cache/{}", url64.clone())).unwrap();
                 save_path.set_extension(file_format);
+                println!("Checking for cache folder existence");
                 std::fs::create_dir_all(save_path.clone().parent().unwrap()).expect("Failed to create cache directory");
                 let mut file = tokio::fs::File::create(&save_path).await.expect("Failed to create file");
 
+                println!("Unwrapping response bytes");
                 let _data = response.bytes().await.unwrap();
                 let data = _data.as_ref();
 
+                println!("Writing data to file");
                 if file.write_all(data).await.is_ok() {
+                    println!("File written successfully");
                     file.flush().await.unwrap();
+                    println!("File flushed successfully");
                     // file has been cached ig
+                    println!("Injecting file into registry");
                     let mut cache_mtx_2 = cloned_lock.write().await;
                     (&mut *cache_mtx_2).insert(url64, String::from(save_path.to_str().unwrap()));
+                    drop(cache_mtx_2);
+                    println!("Cached file: {}", save_path.to_str().unwrap());
+                    return Ok(String::from(save_path.to_str().unwrap())); // we use the currently saved file instead to avoid double download
                 } else {
                     println!("Failed to write file");
                 }
@@ -82,7 +96,7 @@ pub fn init<R: Runtime>() -> TauriPlugin<R> {
 
             let cache_dir_path = app.path_resolver().resolve_resource("cache/").unwrap();
 
-            std::fs::create_dir_all(cache_dir_path.clone().parent().unwrap()).expect("Failed to create cache directory");
+            std::fs::create_dir_all(cache_dir_path.clone()).expect("Failed to create cache directory");
             let mut cache_dir = std::fs::read_dir(&cache_dir_path).unwrap();
 
             let mut cache_registry = HashMap::<String, String>::new();
