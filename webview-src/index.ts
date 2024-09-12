@@ -1,4 +1,4 @@
-import { invoke } from '@tauri-apps/api/tauri'
+import {convertFileSrc, invoke} from '@tauri-apps/api/tauri'
 
 export async function cached(url: string): Promise<string> {
   return await invoke('plugin:remote-caching|cached', {url: url}) as unknown as string;

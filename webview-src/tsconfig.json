@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES5",
+    "target": "ES2020",
     "strict": true,
     "allowJs": true,
     "esModuleInterop": true,
@@ -8,6 +8,7 @@
     "paths": {
       "types": ["@types"]
     },
+    "moduleResolution": "Node",
     "declaration": true,
     "declarationDir": "../webview-dist",
     "rootDir": "./"

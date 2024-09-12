@@ -6,8 +6,13 @@
       <sourceFolder url="file://$MODULE_DIR$/tauri-plugin-remote-caching/examples" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tauri-plugin-remote-caching/examples/tauri-app/src-tauri/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tauri-plugin-remote-caching/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/examples" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/examples/tauri-app/src-tauri/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/tauri-plugin-remote-caching/examples/tauri-app/src-tauri/target" />
       <excludeFolder url="file://$MODULE_DIR$/tauri-plugin-remote-caching/target" />
+      <excludeFolder url="file://$MODULE_DIR$/examples/tauri-app/src-tauri/target" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
