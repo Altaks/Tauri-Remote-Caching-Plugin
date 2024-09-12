@@ -27,6 +27,10 @@
           "$APPDATA/cache/**/*",
           "$APPDATA/cache/*"
         ]
+      },
+      "protocol" : {
+        "asset": true,
+        "assetScope": ["**"]
       }
     },
     "windows": [

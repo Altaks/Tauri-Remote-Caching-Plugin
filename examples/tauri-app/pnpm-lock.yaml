@@ -17,6 +17,9 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
+      tauri-plugin-remote-caching-api:
+        specifier: file:../../
+        version: file:../..
     devDependencies:
       '@tauri-apps/cli':
         specifier: ^1
@@ -606,9 +609,15 @@ packages:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
     engines: {node: '>=4'}
 
+  tauri-plugin-remote-caching-api@file:../..:
+    resolution: {directory: ../.., type: directory}
+
   to-fast-properties@2.0.0:
     resolution: {integrity: sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==}
     engines: {node: '>=4'}
+
+  tslib@2.7.0:
+    resolution: {integrity: sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==}
 
   typescript@5.5.4:
     resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
@@ -1158,7 +1167,14 @@ snapshots:
     dependencies:
       has-flag: 3.0.0
 
+  tauri-plugin-remote-caching-api@file:../..:
+    dependencies:
+      '@tauri-apps/api': 1.6.0
+      tslib: 2.7.0
+
   to-fast-properties@2.0.0: {}
+
+  tslib@2.7.0: {}
 
   typescript@5.5.4: {}
 

@@ -1,8 +1,8 @@
 {
   "name": "tauri-plugin-remote-caching-api",
-  "version": "0.0.0",
-  "author": "You",
-  "description": "",
+  "version": "1.0.0",
+  "author": "Altaks",
+  "description": "Allows caching of remote files",
   "browser": "webview-dist/index.js",
   "main": "webview-dist/index.js",
   "types": "webview-dist/index.d.ts",

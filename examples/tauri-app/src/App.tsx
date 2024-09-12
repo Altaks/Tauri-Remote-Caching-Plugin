@@ -1,6 +1,7 @@
 import "./App.css";
 import {useEffect, useState} from "react";
-import {cached, clear_cache} from "../../../webview-src";
+import {clear_cache, cached} from "tauri-plugin-remote-caching-api";
+import {convertFileSrc} from "@tauri-apps/api/tauri";
 
 export const CachedImage = ({src, className}: {src: string, className?: string}) => {
     const [url, setUrl] = useState("");
@@ -9,7 +10,7 @@ export const CachedImage = ({src, className}: {src: string, className?: string})
         console.log(`Searching cached image`)
         const cachedImage = await cached(src)
         console.log(`Found cached image : ${cachedImage}`)
-        setUrl(cachedImage);
+        setUrl(convertFileSrc(cachedImage));
     }
 
     useEffect(() => {
