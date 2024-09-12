@@ -1,10 +1,9 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 authors:
-  - names: Altaks
+  - name: Altaks
     orcid: https://orcid.org/0009-0001-6791-4435
 title: "Tauri Remote Caching Plugin"
 version: 1.0.0
-doi: 10.5281/zenodo.1234
 date-released: 2024-09-12
 url: https://github.com/tauri-apps/Tauri-Remote-Caching-Plugin
